@@ -98,7 +98,7 @@ public class CannonController : MonoBehaviour
         Vector3[] points = new Vector3[trajectoryPointCount];
 
         // Calculate the velocity using the initial angle and velocity magnitude 
-        Vector2 velocity = canonExit.transform.right * firingForce * 0.02f;
+        Vector2 velocity = canonExit.transform.right * firingForce * Time.fixedDeltaTime;
 
         // Calculate the initial position
         Vector2 position = canonExit.transform.position;
@@ -112,11 +112,11 @@ public class CannonController : MonoBehaviour
             points[i] = position + velocity * time + 0.5f * Physics2D.gravity * time * time;
 
             // Check if the point has collided with something
-            if (Physics2D.OverlapCircle(points[i], 0.01f))
-            {
-                trajectoryPointCount = i;
-                break;
-            }
+            // if (Physics2D.OverlapCircle(points[i], 0.01f))
+            // {
+            //     trajectoryPointCount = i;
+            //     break;
+            // }
         }
 
         // Update the line renderer with the calculated points
