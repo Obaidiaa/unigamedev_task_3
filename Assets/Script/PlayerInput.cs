@@ -24,17 +24,22 @@ public class PlayerInput : MonoBehaviour
             }
         }
 
-        // if (Input.GetMouseButton(0))
-        // {
-        //     // Rotate the cannon while the mouse button is held
-        //     cannonController.RotateCannon(input: Input.GetAxis("Mouse X"));
+        // Check for mouse input 
 
-        // }
-        // else if (Input.GetMouseButtonUp(0))
-        // {
-        //     // Fire the cannon when the mouse button is released
-        //     cannonController.Fire();
-        // }
+
+        
+
+        if (Input.GetMouseButton(0))
+        {
+            // Rotate the cannon while the mouse button is held
+            cannonController.RotateCannonMouse(Input.mousePosition);
+
+        }
+        else if (Input.GetMouseButtonUp(0))
+        {
+            // Fire the cannon when the mouse button is released
+            cannonController.Fire();
+        }
 
         // when move the move down, increase the power of the cannon and reduce it when the mouse move up
         // if (Input.GetAxis("Mouse Y") < 0)

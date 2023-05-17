@@ -23,6 +23,7 @@ public class cannonBall : MonoBehaviour
         {
             Debug.Log("cannonball hit sea");
             Destroy(gameObject);
+            CannonController.isFiring = false;
         }
     }
     

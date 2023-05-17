@@ -11,10 +11,17 @@ public class CannonController : MonoBehaviour
     public float trajectorySimulationTime = 2f;
 
     public GameObject canonExit;
-    private bool isFiring = false;
+    public static bool isFiring = false;
     private float rotationInput = 0f;
 
 
+
+    // cannon fire sound
+    public AudioClip cannonFireSound1;
+    public AudioClip cannonFireSound2;
+    public AudioClip cannonFireSound3;
+    // audio source
+    private AudioSource  audioSource;
 
     public GameObject canon;
     private LineRenderer trajectoryRenderer;
@@ -27,14 +34,19 @@ public class CannonController : MonoBehaviour
         trajectoryRenderer.endWidth = 0.1f;
         //set the number of points to draw
         trajectoryRenderer.positionCount = trajectoryPointCount;
-
-
-
+        
+        //set the audio source
+        audioSource = GetComponent<AudioSource>();
     }
 
 
     void Update()
     {
+
+
+
+
+
         if (isFiring)
             return;
 
@@ -74,6 +86,7 @@ public class CannonController : MonoBehaviour
 
     public void Fire()
     {
+        
         if (isFiring)
             return;
 
@@ -88,9 +101,32 @@ public class CannonController : MonoBehaviour
         Rigidbody2D ballRigidbody = ball.GetComponent<Rigidbody2D>();
         ballRigidbody.AddForce(canonExit.transform.right * firingForce);
 
-        isFiring = false;
+        // Play the cannon fire audio clip randomly
+        int randomCannonFireSound = Random.Range(0, 3);
+        if (randomCannonFireSound == 0)
+        {
+            audioSource.PlayOneShot(cannonFireSound1, 0.7F);
+        }
+        else if (randomCannonFireSound == 1)
+        {
+            audioSource.PlayOneShot(cannonFireSound2, 0.7F);
+        }
+        else if (randomCannonFireSound == 2)
+        {
+            audioSource.PlayOneShot(cannonFireSound3, 0.7F);
+        }
+        //Set isFiring to true
+        isFiring = true;
     }
 
+    //check if the ball is destroyed and set isFiring to false if it is destroyed 
+    public void CheckIfBallDestroyed()
+    {
+        if (GameObject.FindGameObjectWithTag("Cannonball") == null)
+        {
+            isFiring = false;
+        }
+    }
 
     // Draw trajectory 2d arc using the LineRenderer component and the trajectoryPointCount and trajectoryPointSpacing variables to determine the number of points to draw and the spacing between them respectively and gravity and drag.  
     void DrawTrajectory()
@@ -128,6 +164,18 @@ public class CannonController : MonoBehaviour
 
 
 
+    public void RotateCannonMouse(Vector3 mousePosition)
+    {
+        // Calculate the direction from the cannon to the touch position
+        Vector3 direction = mousePosition - transform.position;
+        direction.z = 0f;
+
+        // Calculate the rotation angle based on the direction
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+        // Rotate the cannon to face the touch
+        canon.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+    }
 
 
     public void RotateCannon(Vector3 touchPosition)

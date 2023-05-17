@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Sea
+  - Enemy
+  - Cannonball
   layers:
   - Default
   - TransparentFX
@@ -14,8 +16,8 @@ TagManager:
   - UI
   - background
   - ocean
-  - 
-  - 
+  - clouds
+  - ships
   - 
   - 
   - 
@@ -41,4 +43,16 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: background
+    uniqueID: 3172107643
+    locked: 0
+  - name: ocean
+    uniqueID: 2097890109
+    locked: 0
+  - name: clouds
+    uniqueID: 2273391615
+    locked: 0
+  - name: ships
+    uniqueID: 2747416873
     locked: 0
