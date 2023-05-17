@@ -8,6 +8,7 @@ public class CannonController : MonoBehaviour
 
     public int trajectoryPointCount = 30;
     public float trajectoryPointSpacing = 0.3f;
+    public float trajectorySimulationTime = 2f;
 
     public GameObject canonExit;
     private bool isFiring = false;
@@ -78,7 +79,7 @@ public class CannonController : MonoBehaviour
 
 
         // Instantiate the ball prefab
-        GameObject ball = Instantiate(ballPrefab, transform.position, Quaternion.identity);
+        GameObject ball = Instantiate(ballPrefab, canonExit.transform.position, Quaternion.identity);
 
         // Calculate the direction based on the cannon's rotation
         Vector3 direction = transform.up;
@@ -91,34 +92,37 @@ public class CannonController : MonoBehaviour
     }
 
 
-    // Draw accurte trajectory 2d arc using the LineRenderer component and the trajectoryPointCount and trajectoryPointSpacing variables to determine the number of points to draw and the spacing between them respectively and gravity and drag.  
-void DrawTrajectory()
-{
-    Vector3[] points = new Vector3[trajectoryPointCount];
-
-    // Calculate the initial velocity
-    Vector3 velocity = canonExit.transform.right * firingForce;
-
-    // Calculate the initial position
-    Vector3 position = canonExit.transform.position;
-
-    // Calculate the time step
-
-    for (int i = 0; i < trajectoryPointCount; i++)
+    // Draw trajectory 2d arc using the LineRenderer component and the trajectoryPointCount and trajectoryPointSpacing variables to determine the number of points to draw and the spacing between them respectively and gravity and drag.  
+    void DrawTrajectory()
     {
-        float time = i * Time.fixedDeltaTime * trajectoryPointSpacing;
-        // Set the point at position i to the current position
-        points[i] = position;
+        Vector3[] points = new Vector3[trajectoryPointCount];
 
-        // Update the position and velocity
-        position += velocity * time;
-        velocity += Physics.gravity * time;
+        // Calculate the velocity using the initial angle and velocity magnitude 
+        Vector2 velocity = canonExit.transform.right * firingForce * 0.02f;
+
+        // Calculate the initial position
+        Vector2 position = canonExit.transform.position;
+
+        // Simulate the trajectory
+        for (int i = 0; i < trajectoryPointCount; i++)
+        {
+            float time = i * Time.fixedDeltaTime * trajectorySimulationTime;
+
+            // Calculate the trajectory point using the kinematic equations for projectile motion 
+            points[i] = position + velocity * time + 0.5f * Physics2D.gravity * time * time;
+
+            // Check if the point has collided with something
+            if (Physics2D.OverlapCircle(points[i], 0.01f))
+            {
+                trajectoryPointCount = i;
+                break;
+            }
+        }
+
+        // Update the line renderer with the calculated points
+        trajectoryRenderer.positionCount = trajectoryPointCount;
+        trajectoryRenderer.SetPositions(points);
     }
-
-    // Set the points on the LineRenderer to the calculated points
-    trajectoryRenderer.SetPositions(points);
-}
-
 
     
 
