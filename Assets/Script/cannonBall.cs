@@ -2,18 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class cannonBall : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
     {
-       Debug.Log("cannonball created"); 
+        Debug.Log("cannonball created");
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     //destroy the cannonball when it hits Sea 
@@ -26,5 +28,5 @@ public class cannonBall : MonoBehaviour
             CannonController.isFiring = false;
         }
     }
-    
+
 }

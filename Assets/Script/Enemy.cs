@@ -6,10 +6,11 @@ public class Enemy : MonoBehaviour
 {
     // Start is called before the first frame update
 
-    public float speed = 1f; // Adjust this value to control the enemy's movement speed.
-    public float leftBoundary = -10f; // The leftmost boundary where the enemy should respawn.
+    public float speed ; // Adjust this value to control the enemy's movement speed.
+    public float leftBoundary = -13f; // The leftmost boundary where the enemy should respawn.
     public float rightBoundary = 10f; // The rightmost boundary where the enemy should respawn.
 
+    public int scoreValue = 100; // The score value of the enemy. Adjust this value to control how many points the player gets for destroying the enemy.
 
     // audio source
     private AudioSource audioSource;
@@ -25,23 +26,27 @@ public class Enemy : MonoBehaviour
 
         //set the audio source
         audioSource = GetComponent<AudioSource>();
+
+        Debug.Log("enemy created with speed " + speed + " and health " + health + " and score value " + scoreValue);
+
     }
 
     // Update is called once per frame
     void Update()
     {
 
-
         //move the enemy to the left if health is not 0
         if (health > 0)
         {
+            speed = GameManager.instance.GameSpeed;
             transform.Translate(Vector3.left * speed * Time.deltaTime);
         }
 
         //if the enemy is past the left boundary, move it to the right boundary
         if (transform.position.x < leftBoundary)
         {
-            transform.position = new Vector2(rightBoundary, transform.position.y);
+            // transform.position = new Vector2(rightBoundary, transform.position.y);
+            Destroy(gameObject);
         }
 
     }
@@ -69,7 +74,7 @@ public class Enemy : MonoBehaviour
 
                 // }
                 // when ship is destroyed sink the ship into the sea before destroying it
-
+                GameManager.instance.IncreaseScore(scoreValue);
                 Destroy(gameObject, 1f);
 
             }

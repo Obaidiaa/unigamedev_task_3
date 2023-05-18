@@ -4,6 +4,10 @@ public class PlayerInput : MonoBehaviour
 {
     public CannonController cannonController;
 
+    public float movingTime = 0.5f;
+    public float distanceFactor = 0.1f;
+
+
     void Update()
     {
         // Check for touch input
@@ -23,11 +27,6 @@ public class PlayerInput : MonoBehaviour
                 cannonController.Fire();
             }
         }
-
-        // Check for mouse input 
-
-
-        
 
         if (Input.GetMouseButton(0))
         {
@@ -51,4 +50,12 @@ public class PlayerInput : MonoBehaviour
         //     cannonController.DecreasePower();
         // }
     }
+
+    //move the ship left and right and up and down automatically 
+    void FixedUpdate()
+    {
+        //move the ship left and right and up and down automatically 
+        transform.position = new Vector3(2f + Mathf.PingPong(Time.time * movingTime, distanceFactor), Mathf.PingPong(Time.time * movingTime, distanceFactor), 0);
+    }
+
 }
