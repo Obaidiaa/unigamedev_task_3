@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Animations;
 
 public class Enemy : MonoBehaviour
 {
@@ -18,7 +19,8 @@ public class Enemy : MonoBehaviour
     //hit sound
     public AudioClip hitSound;
     public int health = 3; // The enemy's health. Adjust this value to control how many cannonballs it takes to destroy the enemy.
-
+    public Animation anim; 
+    public string DestoryEn ; 
 
     // Start is called before the first frame update
     void Start()
@@ -28,7 +30,9 @@ public class Enemy : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
 
         Debug.Log("enemy created with speed " + speed + " and health " + health + " and score value " + scoreValue);
-
+        anim = gameObject.GetComponent<Animation>(); 
+        //anim ["DestoryEn"].layer = 123 ; 
+        
     }
 
     // Update is called once per frame
@@ -61,8 +65,12 @@ public class Enemy : MonoBehaviour
         {
             Debug.Log("enemy hit by cannonball");
             health--;
+            
+            
+            
             //play the hit sound
             audioSource.PlayOneShot(hitSound, 0.7F);
+
             if (health == 0)
             {
                 // sink the enemy into the sea before destroying it                

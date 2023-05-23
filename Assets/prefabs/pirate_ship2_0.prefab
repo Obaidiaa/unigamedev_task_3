@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: -3915270101967225061}
   - component: {fileID: -1245624864976169202}
   - component: {fileID: -1753030903966470331}
+  - component: {fileID: 4248132475073673651}
   m_Layer: 9
   m_Name: pirate_ship2_0
   m_TagString: Enemy
@@ -75,7 +76,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1547550423
   m_SortingLayer: 4
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: -1869506388, guid: 90932c0fba370cf469f7392af342da23, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -227,3 +228,24 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 10.314659, y: 3.4013705}
   m_EdgeRadius: 0
+--- !u!95 &4248132475073673651
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7904874186755386722}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e9e3c53c8adee45449ba9e272f9c7acd, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
