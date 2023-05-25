@@ -104,8 +104,11 @@ MonoBehaviour:
   leftBoundary: -10
   rightBoundary: 10
   scoreValue: 450
+  RGD: {fileID: 0}
   hitSound: {fileID: 8300000, guid: 07ce084738f6fea4f9e6fe892769a352, type: 3}
   health: 3
+  anim: {fileID: 4248132475073673651}
+  DestoryEn: 
 --- !u!82 &-1245624864976169202
 AudioSource:
   m_ObjectHideFlags: 0

@@ -16,10 +16,11 @@ public class Enemy : MonoBehaviour
     // audio source
     private AudioSource audioSource;
 
+    public Rigidbody2D RGD;
     //hit sound
     public AudioClip hitSound;
     public int health = 3; // The enemy's health. Adjust this value to control how many cannonballs it takes to destroy the enemy.
-    public Animation anim; 
+    public Animator anim; 
     public string DestoryEn ; 
 
     // Start is called before the first frame update
@@ -30,7 +31,7 @@ public class Enemy : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
 
         Debug.Log("enemy created with speed " + speed + " and health " + health + " and score value " + scoreValue);
-        anim = gameObject.GetComponent<Animation>(); 
+        anim = gameObject.GetComponent<Animator>(); 
         //anim ["DestoryEn"].layer = 123 ; 
         
     }
@@ -71,7 +72,7 @@ public class Enemy : MonoBehaviour
             //play the hit sound
             audioSource.PlayOneShot(hitSound, 0.7F);
 
-            if (health == 0)
+            if (health <= 0)
             {
                 // sink the enemy into the sea before destroying it                
                 // GetComponent<Animator>().SetTrigger("Sink");
@@ -84,7 +85,7 @@ public class Enemy : MonoBehaviour
                 // when ship is destroyed sink the ship into the sea before destroying it
                 GameManager.instance.IncreaseScore(scoreValue);
                 Destroy(gameObject, 1f);
-
+                anim.SetTrigger("Destroy");
             }
             else
             {
