@@ -9,6 +9,7 @@ public class EnemySpawner : MonoBehaviour
     public GameObject enemyPrefab; // Assign the enemy sprite object to this variable in the inspector.
     public GameObject enemy2Prefab; // Assign the enemy sprite object to this variable in the inspector.
     public GameObject enemy3Prefab; // Assign the enemy sprite object to this variable in the inspector.
+    public GameObject enemy4Prefab; // Assign the enemy sprite object to this variable in the inspector.
     public float spawnRate; // Adjust this value to control the frequency of enemy spawns.
     void Start()
     {
@@ -28,18 +29,24 @@ public class EnemySpawner : MonoBehaviour
 
             Debug.Log("respwanRate " + GameManager.instance.RespawnRate);
             // Instantiate a new enemy at the spawner's position randomly
-            int enemyType = Random.Range(0, 3);
-            if (enemyType == 0)
+            int randomEnemy = Random.Range(1, 5);
+            if (randomEnemy == 1)
             {
-                GameObject newEnemy = Instantiate(enemyPrefab, transform.position, Quaternion.identity);
+                Instantiate(enemyPrefab, transform.position, Quaternion.identity);
             }
-            else if (enemyType == 1)
+            else if (randomEnemy == 2)
             {
-                GameObject newEnemy = Instantiate(enemy2Prefab, transform.position, Quaternion.identity);
+                Instantiate(enemy2Prefab, transform.position, Quaternion.identity);
             }
-            else
+            else if (randomEnemy == 3)
             {
-                GameObject newEnemy = Instantiate(enemy3Prefab, transform.position, Quaternion.identity);
+                Instantiate(enemy3Prefab, transform.position, Quaternion.identity);
+            }
+            else if (randomEnemy == 4)
+            {
+                Instantiate(enemy4Prefab, transform.position, Quaternion.identity);
+            }else{
+                Instantiate(enemyPrefab, transform.position, Quaternion.identity);
             }
 
             // Wait for the specified spawn rate before spawning the next enemy

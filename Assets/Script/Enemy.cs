@@ -7,7 +7,7 @@ public class Enemy : MonoBehaviour
 {
     // Start is called before the first frame update
 
-    public float speed ; // Adjust this value to control the enemy's movement speed.
+    public float speed; // Adjust this value to control the enemy's movement speed.
     public float leftBoundary = -13f; // The leftmost boundary where the enemy should respawn.
     public float rightBoundary = 10f; // The rightmost boundary where the enemy should respawn.
 
@@ -20,8 +20,11 @@ public class Enemy : MonoBehaviour
     //hit sound
     public AudioClip hitSound;
     public int health = 3; // The enemy's health. Adjust this value to control how many cannonballs it takes to destroy the enemy.
-    public Animator anim; 
-    public string DestoryEn ; 
+    public Animator anim;
+    public string DestoryEn;
+
+    public float sinkAngleSpeed = 15f;
+    public float sinkDownSpeed = 2f;
 
     // Start is called before the first frame update
     void Start()
@@ -31,9 +34,9 @@ public class Enemy : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
 
         Debug.Log("enemy created with speed " + speed + " and health " + health + " and score value " + scoreValue);
-        anim = gameObject.GetComponent<Animator>(); 
+        anim = gameObject.GetComponent<Animator>();
         //anim ["DestoryEn"].layer = 123 ; 
-        
+
     }
 
     // Update is called once per frame
@@ -54,21 +57,31 @@ public class Enemy : MonoBehaviour
             Destroy(gameObject);
         }
 
+        if (health <= 0)
+        {
+            // rotate the enemy when it is destroyed 
+            transform.Rotate(Vector3.forward * sinkAngleSpeed * Time.deltaTime);
+            transform.Translate(Vector3.down * sinkDownSpeed * Time.deltaTime);
+        }
+
     }
 
 
 
     //the enemy is destroyed when it hits the cannonball if it health is 0 
     //shake the enemy when it is hit by a cannonball
-    void OnCollisionEnter2D(Collision2D collision)
+
+ 
+    void OnTriggerEnter2D(Collider2D collision)
     {
+        Debug.Log("enemy collision with " + collision.gameObject.tag);
         if (collision.gameObject.tag == "Cannonball")
         {
             Debug.Log("enemy hit by cannonball");
             health--;
-            
-            
-            
+
+
+
             //play the hit sound
             audioSource.PlayOneShot(hitSound, 0.7F);
 
@@ -83,9 +96,17 @@ public class Enemy : MonoBehaviour
 
                 // }
                 // when ship is destroyed sink the ship into the sea before destroying it
+
+
                 GameManager.instance.IncreaseScore(scoreValue);
-                Destroy(gameObject, 1f);
+                GameManager.instance.cannonBalls += 3;
+                GameManager.instance.UpdateBallsText();
+                Destroy(gameObject, 3f);
                 anim.SetTrigger("Destroy");
+
+                //move the enemy into the sea before destroying it
+                // Destroy(gameObject);
+
             }
             else
             {

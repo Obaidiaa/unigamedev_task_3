@@ -19,7 +19,7 @@ public class cannonBall : MonoBehaviour
     }
 
     //destroy the cannonball when it hits Sea 
-    void OnCollisionEnter2D(Collision2D collision)
+    void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Sea" || collision.gameObject.tag == "Enemy")
         {

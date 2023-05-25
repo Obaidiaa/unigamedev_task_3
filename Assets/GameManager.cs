@@ -7,11 +7,26 @@ public class GameManager : MonoBehaviour
 
     public GameObject player; // Reference to the player object
     public TextMeshProUGUI scoreText; // Reference to the UI text displaying the score
-    // public GameObject gameOverPanel; // Reference to the UI panel displaying the game over screen
+    public TextMeshProUGUI ballsText; // Reference to the UI text displaying the score
+                                      // public GameObject gameOverPanel; // Reference to the UI panel displaying the game over screen
 
+    public gameOverPanel gameOverPanel;
     private int score; // Current score
 
+    public int cannonBalls = 5;
+
+    public int Score
+    {
+        get { return score; }
+        set { score = value; }
+    }
+
     private bool isGameOver; // Flag to track if the game is over
+
+    public bool IsGameOver
+    {
+        get { return isGameOver; }
+    }
 
     private float respawnRate = 10f;
     private float gameSpeed = 1f;
@@ -43,7 +58,10 @@ public class GameManager : MonoBehaviour
     {
         isGameOver = false;
         score = 0;
+        Time.timeScale = 1;
+        AudioListener.pause = false;
         UpdateScoreText();
+        UpdateBallsText();
     }
 
     public void IncreaseScore(int amount)
@@ -93,7 +111,10 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
+        // Time.timeScale = 0f;
         isGameOver = true;
+        gameOverPanel.setup(score);
+        gameOverPanel.PauseGame();
         // gameOverPanel.SetActive(true);
         // You can add more game over logic here, such as stopping the player movement, playing a sound effect, etc.
     }
@@ -101,5 +122,10 @@ public class GameManager : MonoBehaviour
     private void UpdateScoreText()
     {
         scoreText.text = "Score: " + score.ToString();
+    }
+
+    public void UpdateBallsText()
+    {
+        ballsText.text = "Ammo: " + cannonBalls.ToString();
     }
 }

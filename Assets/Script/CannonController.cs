@@ -21,7 +21,7 @@ public class CannonController : MonoBehaviour
     public AudioClip cannonFireSound2;
     public AudioClip cannonFireSound3;
     // audio source
-    private AudioSource  audioSource;
+    private AudioSource audioSource;
 
     public GameObject canon;
     private LineRenderer trajectoryRenderer;
@@ -34,7 +34,7 @@ public class CannonController : MonoBehaviour
         trajectoryRenderer.endWidth = 0.1f;
         //set the number of points to draw
         trajectoryRenderer.positionCount = trajectoryPointCount;
-        
+
         //set the audio source
         audioSource = GetComponent<AudioSource>();
     }
@@ -45,78 +45,94 @@ public class CannonController : MonoBehaviour
 
 
 
-
-
-        if (isFiring)
-            return;
-
-        // Rotate the cannon based on player input
-        float rotation = rotationInput * rotationSpeed * Time.deltaTime;
-        canon.transform.Rotate(Vector3.forward, rotation);
-
-        // Clamp the rotation to prevent the cannon from rotating too far
-        float zRotation = transform.eulerAngles.z;
-        if (zRotation > 90 && zRotation < 180)
+        if (!GameManager.instance.IsGameOver)
         {
-            zRotation = 90;
+
+            if (isFiring)
+                return;
+
+            // Rotate the cannon based on player input
+            float rotation = rotationInput * rotationSpeed * Time.deltaTime;
+            canon.transform.Rotate(Vector3.forward, rotation);
+
+            // Clamp the rotation to prevent the cannon from rotating too far
+            float zRotation = transform.eulerAngles.z;
+            if (zRotation > 90 && zRotation < 180)
+            {
+                zRotation = 90;
+            }
+            else if (zRotation < 270 && zRotation > 180)
+            {
+                zRotation = 270;
+            }
+            transform.eulerAngles = new Vector3(0, 0, zRotation);
+
+
+            // limit the power of the cannon
+            if (firingForce > 800f)
+            {
+                firingForce = 800f;
+            }
+            else if (firingForce < 100f)
+            {
+                firingForce = 100f;
+            }
+
+
+            // Draw the trajectory arc
+            DrawTrajectory();
         }
-        else if (zRotation < 270 && zRotation > 180)
-        {
-            zRotation = 270;
-        }
-        transform.eulerAngles = new Vector3(0, 0, zRotation);
-
-
-        // limit the power of the cannon
-        if (firingForce > 800f)
-        {
-            firingForce = 800f;
-        }
-        else if (firingForce < 100f)
-        {
-            firingForce = 100f;
-        }
-
-
-        // Draw the trajectory arc
-        DrawTrajectory();
-
 
     }
 
     public void Fire()
     {
-        
-        if (isFiring)
-            return;
 
 
-        // Instantiate the ball prefab
-        GameObject ball = Instantiate(ballPrefab, canonExit.transform.position, Quaternion.identity);
-
-        // Calculate the direction based on the cannon's rotation
-        Vector3 direction = transform.up;
-
-        // Apply a force to the ball in the calculated direction
-        Rigidbody2D ballRigidbody = ball.GetComponent<Rigidbody2D>();
-        ballRigidbody.AddForce(canonExit.transform.right * firingForce);
-
-        // Play the cannon fire audio clip randomly
-        int randomCannonFireSound = Random.Range(0, 3);
-        if (randomCannonFireSound == 0)
+        if (GameManager.instance.cannonBalls > 0)
         {
-            audioSource.PlayOneShot(cannonFireSound1, 0.7F);
+
+            if (isFiring)
+                return;
+
+
+            // Instantiate the ball prefab
+            GameObject ball = Instantiate(ballPrefab, canonExit.transform.position, Quaternion.identity);
+
+            // Calculate the direction based on the cannon's rotation
+            Vector3 direction = transform.up;
+
+            // Apply a force to the ball in the calculated direction
+            Rigidbody2D ballRigidbody = ball.GetComponent<Rigidbody2D>();
+            ballRigidbody.AddForce(canonExit.transform.right * firingForce);
+
+            // Play the cannon fire audio clip randomly
+            int randomCannonFireSound = Random.Range(0, 3);
+            if (randomCannonFireSound == 0)
+            {
+                audioSource.PlayOneShot(cannonFireSound1, 0.7F);
+            }
+            else if (randomCannonFireSound == 1)
+            {
+                audioSource.PlayOneShot(cannonFireSound2, 0.7F);
+            }
+            else if (randomCannonFireSound == 2)
+            {
+                audioSource.PlayOneShot(cannonFireSound3, 0.7F);
+            }
+            //Set isFiring to true
+            isFiring = true;
+            // if (GameManager.instance.cannonBalls == 0)
+            // {
+            //game over
+            // Debug.Log("game over");
+            // Time.timeScale = 0;
+            // GameManager.instance.GameOver();
+            // }
+            GameManager.instance.cannonBalls--;
+            GameManager.instance.UpdateBallsText();
+
         }
-        else if (randomCannonFireSound == 1)
-        {
-            audioSource.PlayOneShot(cannonFireSound2, 0.7F);
-        }
-        else if (randomCannonFireSound == 2)
-        {
-            audioSource.PlayOneShot(cannonFireSound3, 0.7F);
-        }
-        //Set isFiring to true
-        isFiring = true;
     }
 
     //check if the ball is destroyed and set isFiring to false if it is destroyed 
@@ -160,7 +176,7 @@ public class CannonController : MonoBehaviour
         trajectoryRenderer.SetPositions(points);
     }
 
-    
+
 
 
 
