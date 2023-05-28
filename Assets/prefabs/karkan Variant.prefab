@@ -7,6 +7,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -3915270101967225061, guid: 27438f02bb6e3ad499c1594e14db97c3, type: 3}
+      propertyPath: destroy
+      value: 
+      objectReference: {fileID: 8300000, guid: 840f862987d12b545ad55d030b9a4751, type: 3}
+    - target: {fileID: -3915270101967225061, guid: 27438f02bb6e3ad499c1594e14db97c3, type: 3}
+      propertyPath: hitSound
+      value: 
+      objectReference: {fileID: 8300000, guid: ea8e834131920af478f4b867678662f9, type: 3}
     - target: {fileID: -1753030903966470331, guid: 27438f02bb6e3ad499c1594e14db97c3, type: 3}
       propertyPath: m_Size.x
       value: 3.267593
@@ -45,7 +53,7 @@ PrefabInstance:
       objectReference: {fileID: 118476644, guid: 7923709157d56f74fbc4bd419afd20cc, type: 3}
     - target: {fileID: 7904874186755386722, guid: 27438f02bb6e3ad499c1594e14db97c3, type: 3}
       propertyPath: m_Name
-      value: karkan
+      value: karkan Variant
       objectReference: {fileID: 0}
     - target: {fileID: 9206700725220025591, guid: 27438f02bb6e3ad499c1594e14db97c3, type: 3}
       propertyPath: m_RootOrder

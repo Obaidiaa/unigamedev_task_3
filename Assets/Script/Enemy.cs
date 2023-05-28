@@ -19,6 +19,7 @@ public class Enemy : MonoBehaviour
     public Rigidbody2D RGD;
     //hit sound
     public AudioClip hitSound;
+    public AudioClip destroy;
     public int health = 3; // The enemy's health. Adjust this value to control how many cannonballs it takes to destroy the enemy.
     public Animator anim;
     public string DestoryEn;
@@ -103,6 +104,7 @@ public class Enemy : MonoBehaviour
                 GameManager.instance.UpdateBallsText();
                 Destroy(gameObject, 3f);
                 anim.SetTrigger("Destroy");
+                audioSource.PlayOneShot(destroy, 0.7F);
 
                 //move the enemy into the sea before destroying it
                 // Destroy(gameObject);
